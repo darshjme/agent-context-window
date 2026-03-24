@@ -4,20 +4,15 @@
 
 # agent-context-window
 
-**Context window management for LLM agents. Zero external dependencies.**
+**Context window management for LLM agents — token counting, sliding window, prioritization, and truncation.**
 
-[![PyPI](https://img.shields.io/pypi/v/agent-context-window?color=blue)](https://pypi.org/project/agent-context-window/)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Zero deps](https://img.shields.io/badge/dependencies-zero-brightgreen)](pyproject.toml)
+[![PyPI version](https://img.shields.io/pypi/v/agent-context-window?color=blue&style=flat-square)](https://pypi.org/project/agent-context-window/) [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square)](https://python.org) [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE) [![Tests](https://img.shields.io/badge/tests-passing-brightgreen?style=flat-square)](#)
 
 ---
 
 ## The Problem
 
-Production LLM agents fail silently. Without context window management, you get undefined behaviour at scale — race conditions, lost state, cascading failures, and no way to debug what went wrong.
-
-`agent-context-window` gives you a production-ready context window management primitive with a clean API, tested edge cases, and zero configuration.
+Without context-window management, agents silently truncate earlier context as conversations grow — losing critical instructions, system prompts, or prior tool results. Token-aware management makes truncation explicit and controlled.
 
 ## Installation
 
@@ -25,88 +20,101 @@ Production LLM agents fail silently. Without context window management, you get 
 pip install agent-context-window
 ```
 
-Or from source:
-
-```bash
-git clone https://github.com/darshjme/agent-context-window.git
-cd agent-context-window
-pip install -e .
-```
-
 ## Quick Start
 
 ```python
-from agent_context_window import *  # see API reference below
+from agent_context_window import ContentPrioritizer, ContextTruncator, _Message
 
-# See examples/ directory for complete working examples
+# Initialise
+instance = ContentPrioritizer(name="my_agent")
+
+# Use
+result = instance.run()
+print(result)
 ```
 
 ## API Reference
 
-The main classes and functions are defined in `agent_context_window/__init__.py`.
+### `ContentPrioritizer`
 
-Key exports: `Token counting · sliding window · content prioritization · truncation`
+```python
+class ContentPrioritizer:
+    """Scores and re-ranks messages by their estimated importance.
+    def __init__(self) -> None:
+    def score(self, message: dict) -> float:
+        """Score a single message's importance in [0.0, 1.0].
+    def rerank(self, messages: list[dict]) -> list[dict]:
+        """Return a *new* list sorted by importance (highest first).
+```
 
-All classes follow a consistent interface:
-- Instantiate with sensible defaults
-- Compose with other arsenal libraries
-- Zero external dependencies required
+### `ContextTruncator`
 
-See the source code and `tests/` directory for verified usage examples.
+```python
+class ContextTruncator:
+    """Truncates text or message lists to fit within a token budget.
+    def __init__(self, model: str = "gpt-4") -> None:
+    def truncate(
+```
+
+### `_Message`
+
+```python
+class _Message:
+    role: str
+    def to_dict(self) -> dict:
+```
+
+### `ContextWindow`
+
+```python
+class ContextWindow:
+    """Manages a sliding window of conversation messages within a token budget.
+    def __init__(
+    def _budget(self) -> int:
+        """Usable token budget (max minus reserve)."""
+    def token_usage(self) -> int:
+        """Current approximate token usage of all stored messages."""
+```
+
 
 ## How It Works
 
+### Flow
+
 ```mermaid
 flowchart LR
-    A[Agent Task] --> B[agent-context-window]
-    B --> C{Decision}
-    C -->|success| D[✅ Result]
-    C -->|failure| E[⚠️ Handle]
-    E --> B
-
-    style B fill:#161b22,stroke:#58a6ff,stroke-width:2,color:#58a6ff
-    style D fill:#1a3320,stroke:#238636,color:#3fb950
-    style E fill:#3d1a1a,stroke:#f85149,color:#f85149
+    A[User Code] -->|create| B[ContentPrioritizer]
+    B -->|configure| C[ContextTruncator]
+    C -->|execute| D{Success?}
+    D -->|yes| E[Return Result]
+    D -->|no| F[Error Handler]
+    F --> G[Fallback / Retry]
+    G --> C
 ```
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
-    participant Agent
-    participant AgentContextWindow as agent-context-window
-    participant Output
+    participant App
+    participant ContentPrioritizer
+    participant ContextTruncator
 
-    Agent->>AgentContextWindow: initialize()
-    AgentContextWindow-->>Agent: ready
-
-    loop Agent Run
-        Agent->>AgentContextWindow: process(input)
-        AgentContextWindow-->>Agent: result
-    end
-
-    Agent->>Output: deliver(result)
+    App->>+ContentPrioritizer: initialise()
+    ContentPrioritizer->>+ContextTruncator: configure()
+    ContextTruncator-->>-ContentPrioritizer: ready
+    App->>+ContentPrioritizer: run(context)
+    ContentPrioritizer->>+ContextTruncator: execute(context)
+    ContextTruncator-->>-ContentPrioritizer: result
+    ContentPrioritizer-->>-App: WorkflowResult
 ```
 
 ## Philosophy
 
-A guru speaks to the student's current level of understanding — not beyond, not below. agent-context-window does the same.
+> The Gita was delivered in eighteen chapters of focused context; the context window honours that constraint.
 
 ---
 
-## Part of the Arsenal
-
-`agent-context-window` is one of six production libraries for LLM agents:
-
-| Library | Purpose |
-|---------|---------|
-| [herald](https://github.com/darshjme/herald) | Semantic task routing |
-| [engram](https://github.com/darshjme/engram) | Agent memory |
-| [sentinel](https://github.com/darshjme/sentinel) | ReAct loop guards |
-| [verdict](https://github.com/darshjme/verdict) | Agent evaluation |
-| [agent-guardrails](https://github.com/darshjme/agent-guardrails) | Output validation |
-| [agent-observability](https://github.com/darshjme/agent-observability) | Tracing & metrics |
-
-→ [arsenal](https://github.com/darshjme/arsenal) — the complete stack
-
----
+*Part of the [arsenal](https://github.com/darshjme/arsenal) — production stack for LLM agents.*
 
 *Built by [Darshankumar Joshi](https://github.com/darshjme), Gujarat, India.*
