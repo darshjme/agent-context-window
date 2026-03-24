@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: agent-context-window
+Version: 0.1.0
+Summary: Context window management for LLM agents — token counting, sliding window, prioritization, and truncation.
+Author-email: Darshankumar Joshi <darshjme@gmail.com>
+License: MIT
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
