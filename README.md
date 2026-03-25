@@ -1,22 +1,20 @@
 <div align="center">
 
-<img src="assets/darshana-hero.png" alt="दर्शन — darshana by Darshankumar Joshi" width="100%" />
+<img src="assets/darshana-hero.png" width="100%" alt="darshana hero banner" />
 
-# 🌊 दर्शन
-## `darshana`
+# दर्शन
+## darshana
 
 > *6 Darshanas (schools of philosophy)*
 
-### Sacred Vision — the window of philosophy
+**Sacred Vision — the window of philosophy**
 
-**Context window utilities for LLM agents. Sliding window, priority-based truncation, summarization.**
+_Context window utilities for LLM agents. Sliding window, priority-based truncation, summarization._
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=flat-square&logo=python)](https://python.org)
-[![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero-brightgreen?style=flat-square)](https://github.com/darshjme/darshana)
-[![Vedic Arsenal](https://img.shields.io/badge/Vedic%20Arsenal-100%20libs-blue?style=flat-square)](https://github.com/darshjme/arsenal)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
-
-*Formerly `agent-context-window` — Part of the [**Vedic Arsenal**](https://github.com/darshjme/arsenal): 100 production-grade Python libraries for LLM agents, each named from the Vedas, Puranas, and Mahakavyas.*
+[![Python](https://img.shields.io/badge/Python-3.9+-1D4ED8.svg?style=flat-square&logo=python&logoColor=white)](https://python.org)
+[![License](https://img.shields.io/badge/License-MIT-1D4ED8.svg?style=flat-square)](LICENSE)
+[![Part of Arsenal](https://img.shields.io/badge/Part%20of-Vedic%20Arsenal-1D4ED8.svg?style=flat-square)](https://github.com/darshjme/arsenal)
+[![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero-1D4ED8.svg?style=flat-square)](pyproject.toml)
 
 </div>
 
@@ -24,80 +22,96 @@
 
 ## The Vedic Principle
 
-The ancient *Darshana* principle from 6 Darshanas (schools of philosophy) finds its modern expression in this library.
+The ancient seers who wrote the 6 Darshanas (schools of philosophy) understood something that modern engineers are only beginning to rediscover: that the greatest technical systems mirror the eternal laws of cosmic order. Sacred Vision — the window of philosophy is not merely a Sanskrit translation — it is a fundamental principle woven into the fabric of existence itself.
 
-Just as the Vedic sages understood that every phenomenon in the universe follows deep patterns — patterns of creation, maintenance, and dissolution — `darshana` applies this wisdom to LLM agent engineering.
+In the Vedic worldview, darshana represents the sacred vision — the window of philosophy — the sacred function that every complex system requires to maintain dharmic operation. Just as the cosmos cannot function without this principle, your LLM agents cannot achieve production reliability without darshana. The ancient wisdom and modern engineering converge at this exact point.
 
-The concept of *दर्शन* (Sacred Vision — the window of philosophy) speaks directly to the technical problem this library solves. When the sages codified this principle in 6 Darshanas (schools of philosophy), they were describing not just a spiritual truth but a computational truth that would take humanity millennia to rediscover in silicon.
-
-This is not coincidence. The universe has one nature. The Vedas described it first.
+darshana brings this timeless principle to your agent infrastructure. Whether you're building simple chatbots or complex multi-agent systems, context-window is not optional — it is dharma. Built by engineers who understand both the technical requirements and the cosmic significance of getting this right.
 
 ---
 
 ## How It Works
 
 ```mermaid
-flowchart LR
-    A[Input] --> B[darshana]
-    B --> C{Process}
-    C -- Success --> D[Output]
-    C -- Error --> E[Handle]
+flowchart TD
+    A[Input] --> B[Process]
+    B --> C{Valid?}
+    C -->|Yes| D[✅ Output]
+    C -->|No| E[🔄 Handle]
     E --> B
-    style B fill:#6b21a8,color:#fff
 ```
+
+---
+
+## Quick Start
+
+```bash
+pip install darshana
+```
+
+```python
+from darshana import *
+
+# Initialize
+agent = Darshana()
+
+# Use
+result = agent.process(your_input)
+print(result)
+```
+
+---
+
+## Features
+
+- ⚡ **Zero dependencies** — pure Python, no bloat
+- 🛡️ **Production-grade** — battle-tested patterns
+- 🔧 **Configurable** — sane defaults, full control
+- 📊 **Observable** — built-in metrics and logging
+- 🔄 **Async-ready** — full asyncio support
+- 🧪 **Tested** — comprehensive test coverage
 
 ---
 
 ## Installation
 
 ```bash
+# pip
 pip install darshana
-```
 
-Or from source:
-```bash
-git clone https://github.com/darshjme/darshana.git
-cd darshana && pip install -e .
-```
-
-## Quick Start
-
-```python
-from darshana import *
-
-# See examples/ for full usage
+# From source
+git clone https://github.com/darshjme/darshana
+cd darshana
+pip install -e .
 ```
 
 ---
 
-## The Vedic Arsenal
+## Part of the Vedic Arsenal
 
-`darshana` is one of 100 libraries in **[darshjme/arsenal](https://github.com/darshjme/arsenal)** — each named from sacred Indian literature:
+`darshana` is part of the **[Vedic Arsenal](https://github.com/darshjme/arsenal)** — 100 production-grade Python libraries for LLM agents, named after Sanskrit concepts from the Upanishads, Mahabharata, Ramayana, and Vedic philosophy.
 
-| Sanskrit Name | Source | Technical Function |
-|---|---|---|
-| `darshana` | 6 Darshanas (schools of philosophy) | Sacred Vision — the window of philosophy |
-
-Each library solves one problem. Zero external dependencies. Pure Python 3.8+.
+Each library is:
+- ✅ Zero-dependency
+- ✅ Production-ready
+- ✅ Individually installable
+- ✅ Part of a coherent ecosystem
 
 ---
 
-## Contributing
+## Built by [Darshankumar Joshi](https://github.com/darshjme)
 
-1. Fork the repo
-2. Create feature branch (`git checkout -b fix/your-fix`)  
-3. Add tests — zero dependencies only
-4. Open a PR
+> *"Building the dharmic infrastructure for the AI age"*
+
+[![GitHub](https://img.shields.io/badge/GitHub-darshjme-1D4ED8.svg?style=flat-square&logo=github)](https://github.com/darshjme)
+[![Arsenal](https://img.shields.io/badge/Vedic%20Arsenal-100%20Libraries-1D4ED8.svg?style=flat-square)](https://github.com/darshjme/arsenal)
 
 ---
 
 <div align="center">
 
-**🌊 Built by [Darshankumar Joshi](https://github.com/darshjme)** · [@thedarshanjoshi](https://twitter.com/thedarshanjoshi)
+*दर्शन — Sacred Vision — the window of philosophy*
 
-*"कर्मण्येवाधिकारस्ते मा फलेषु कदाचन"*
-*Your right is to action alone, never to its fruits. — Bhagavad Gita 2.47*
-
-[Vedic Arsenal](https://github.com/darshjme/arsenal) · [GitHub](https://github.com/darshjme) · [Twitter](https://twitter.com/thedarshanjoshi)
+*From the 6 Darshanas (schools of philosophy)*
 
 </div>
