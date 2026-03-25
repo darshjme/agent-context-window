@@ -1,18 +1,32 @@
 <div align="center">
-<img src="assets/hero.svg" width="100%"/>
+
+<img src="assets/agent-context-window-hero.png" alt="agent-context-window — Vedic Arsenal" width="100%" />
+
+# ⚡ agent-context-window
+
+### *ब्रह्म* — Brahma — the universal intelligence
+
+**Context window management for LLM agents — token counting, sliding window, content prioritization, truncation strategies. Zero dependencies.**
+
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=flat-square&logo=python)](https://python.org)
+[![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero-brightgreen?style=flat-square)](https://github.com/darshjme/agent-context-window)
+[![Tests](https://img.shields.io/badge/Tests-Passing-success?style=flat-square)](https://github.com/darshjme/agent-context-window/actions)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
+[![Vedic Arsenal](https://img.shields.io/badge/Vedic%20Arsenal-100%20libs-purple?style=flat-square)](https://github.com/darshjme/arsenal)
+
+*Part of the [**Vedic Arsenal**](https://github.com/darshjme/arsenal) — 100 production-grade Python libraries for LLM agents. Zero dependencies. Battle-tested.*
+
 </div>
-
-# agent-context-window
-
-**Context window management for LLM agents — token counting, sliding window, prioritization, and truncation.**
-
-[![PyPI version](https://img.shields.io/pypi/v/agent-context-window?color=blue&style=flat-square)](https://pypi.org/project/agent-context-window/) [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square)](https://python.org) [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE) [![Tests](https://img.shields.io/badge/tests-passing-brightgreen?style=flat-square)](#)
 
 ---
 
-## The Problem
+## Overview
 
-Without context-window management, agents silently truncate earlier context as conversations grow — losing critical instructions, system prompts, or prior tool results. Token-aware management makes truncation explicit and controlled.
+`agent-context-window` implements **context window management for llm agents — token counting, sliding window, content prioritization, truncation strategies. zero dependencies.**
+
+Inspired by the Vedic principle of *ब्रह्म* (Brahma), this library brings the ancient wisdom of structured discipline to modern LLM agent engineering.
+
+No external dependencies. Pure Python 3.8+. Drop it in anywhere.
 
 ## Installation
 
@@ -20,101 +34,67 @@ Without context-window management, agents silently truncate earlier context as c
 pip install agent-context-window
 ```
 
+Or clone directly:
+```bash
+git clone https://github.com/darshjme/agent-context-window.git
+cd agent-context-window
+pip install -e .
+```
+
 ## Quick Start
 
 ```python
-from agent_context_window import ContentPrioritizer, ContextTruncator, _Message
+from context_window import *
 
-# Initialise
-instance = ContentPrioritizer(name="my_agent")
-
-# Use
-result = instance.run()
-print(result)
+# Initialize
+# See examples/ for full usage patterns
 ```
 
-## API Reference
+## Why `agent-context-window`?
 
-### `ContentPrioritizer`
+Production LLM systems fail in predictable ways. `agent-context-window` solves the **context-window** failure mode with:
 
-```python
-class ContentPrioritizer:
-    """Scores and re-ranks messages by their estimated importance.
-    def __init__(self) -> None:
-    def score(self, message: dict) -> float:
-        """Score a single message's importance in [0.0, 1.0].
-    def rerank(self, messages: list[dict]) -> list[dict]:
-        """Return a *new* list sorted by importance (highest first).
+- **Zero dependencies** — no version conflicts, no bloat
+- **Battle-tested patterns** — extracted from real production systems
+- **Type-safe** — full type hints, mypy-compatible
+- **Minimal surface area** — one job, done well
+- **Composable** — works with any LLM framework (LangChain, LlamaIndex, raw OpenAI, etc.)
+
+## The Vedic Arsenal
+
+`agent-context-window` is part of **[darshjme/arsenal](https://github.com/darshjme/arsenal)** — a collection of 100 focused Python libraries for LLM agent infrastructure.
+
+Each library solves exactly one problem. Together they form a complete stack.
+
+```
+pip install agent-context-window  # this library
+# Browse all 100: https://github.com/darshjme/arsenal
 ```
 
-### `ContextTruncator`
+## Contributing
 
-```python
-class ContextTruncator:
-    """Truncates text or message lists to fit within a token budget.
-    def __init__(self, model: str = "gpt-4") -> None:
-    def truncate(
-```
+Found a bug? Have an improvement?
 
-### `_Message`
+1. Fork the repo
+2. Create a feature branch (`git checkout -b fix/your-fix`)
+3. Add tests
+4. Open a PR
 
-```python
-class _Message:
-    role: str
-    def to_dict(self) -> dict:
-```
+All contributions welcome. Keep it zero-dependency.
 
-### `ContextWindow`
+## License
 
-```python
-class ContextWindow:
-    """Manages a sliding window of conversation messages within a token budget.
-    def __init__(
-    def _budget(self) -> int:
-        """Usable token budget (max minus reserve)."""
-    def token_usage(self) -> int:
-        """Current approximate token usage of all stored messages."""
-```
-
-
-## How It Works
-
-### Flow
-
-```mermaid
-flowchart LR
-    A[User Code] -->|create| B[ContentPrioritizer]
-    B -->|configure| C[ContextTruncator]
-    C -->|execute| D{Success?}
-    D -->|yes| E[Return Result]
-    D -->|no| F[Error Handler]
-    F --> G[Fallback / Retry]
-    G --> C
-```
-
-### Sequence
-
-```mermaid
-sequenceDiagram
-    participant App
-    participant ContentPrioritizer
-    participant ContextTruncator
-
-    App->>+ContentPrioritizer: initialise()
-    ContentPrioritizer->>+ContextTruncator: configure()
-    ContextTruncator-->>-ContentPrioritizer: ready
-    App->>+ContentPrioritizer: run(context)
-    ContentPrioritizer->>+ContextTruncator: execute(context)
-    ContextTruncator-->>-ContentPrioritizer: result
-    ContentPrioritizer-->>-App: WorkflowResult
-```
-
-## Philosophy
-
-> The Gita was delivered in eighteen chapters of focused context; the context window honours that constraint.
+MIT — use freely, build freely.
 
 ---
 
-*Part of the [arsenal](https://github.com/darshjme/arsenal) — production stack for LLM agents.*
+<div align="center">
 
-*Built by [Darshankumar Joshi](https://github.com/darshjme), Gujarat, India.*
+**Built with ⚡ by [Darshankumar Joshi](https://github.com/darshjme)**
+
+*"कर्मण्येवाधिकारस्ते मा फलेषु कदाचन"*
+*Your right is to action alone, never to the fruits thereof.*
+
+[Arsenal](https://github.com/darshjme/arsenal) · [GitHub](https://github.com/darshjme) · [Twitter](https://twitter.com/thedarshanjoshi)
+
+</div>
