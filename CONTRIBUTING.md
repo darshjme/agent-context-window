@@ -22,7 +22,9 @@ Thank you for considering contributing to **agent-context-window**!
 
 All PRs must include tests. Run the suite with:
 ```bash
-python -m pytest tests/ -v
+PYTHONPATH=src python -m pytest tests/ -v
+
+> **Note:** `PYTHONPATH=src` is required for libraries using a `src/` layout.
 ```
 Target: 100 % pass rate. Coverage additions are welcome.
 
